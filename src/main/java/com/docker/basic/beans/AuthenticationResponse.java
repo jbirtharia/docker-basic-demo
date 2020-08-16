@@ -8,5 +8,5 @@ public class AuthenticationResponse {
 
     private String jwtToken;
     private String token_type;
-    private String expires_in;
+    private Integer expires_in;
 }

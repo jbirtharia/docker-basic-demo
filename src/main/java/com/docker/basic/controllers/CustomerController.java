@@ -2,12 +2,14 @@ package com.docker.basic.controllers;
 
 import com.docker.basic.beans.Customer;
 import com.docker.basic.service.CustomerService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Api(tags="Customer API's", description = "Provides API's for customer")
 public class CustomerController {
 
     @Autowired

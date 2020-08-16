@@ -47,7 +47,7 @@ public class JwtTokenUtil {
     }
 
     private String createToken(Map<String, Object> claims, String subject){
-        LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(1, ChronoUnit.MINUTES));
+        LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(2, ChronoUnit.MINUTES));
         Date tmfn = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(tmfn)

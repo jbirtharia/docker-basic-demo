@@ -5,6 +5,7 @@ import com.docker.basic.beans.AuthenticationResponse;
 import com.docker.basic.exception.CredentialException;
 import com.docker.basic.security.MyUserDetailService;
 import com.docker.basic.util.JwtTokenUtil;
+import io.swagger.annotations.Api;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Log4j2
+@Api(tags="Security API's", description = "Provides API's for user authentication")
 public class SecurityController {
 
     @Autowired
@@ -45,7 +47,7 @@ public class SecurityController {
         }
         final UserDetails userDetails =  userDetailService.loadUserByUsername(request.getEmail());
         return ResponseEntity.ok(new AuthenticationResponse(tokenUtil.generateToken(userDetails),"Bearer",
-                tokenUtil.extractExpiration(tokenUtil.generateToken(userDetails)).toString())
+                tokenUtil.extractExpiration(tokenUtil.generateToken(userDetails)).getSeconds())
         );
     }
 }
