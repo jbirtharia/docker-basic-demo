@@ -6,6 +6,7 @@ import com.docker.basic.repository.CustomerJPARepository;
 import com.docker.basic.repository.CustomerRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,9 @@ import java.util.List;
 @Log4j2
 @Service
 public class CustomerService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     CustomerRepository repository;
@@ -25,6 +29,7 @@ public class CustomerService {
     }
 
     public Customer save(Customer customer) {
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         jpaRepository.save(customer);
         return customer;
     }

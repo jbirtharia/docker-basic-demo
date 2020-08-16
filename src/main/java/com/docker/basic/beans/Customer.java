@@ -1,5 +1,6 @@
 package com.docker.basic.beans;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(required = false, hidden = true)
     private Integer id;
 
     private String firstName;
