@@ -14,6 +14,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,8 +31,9 @@ public class SecurityController {
     JwtTokenUtil tokenUtil;
 
 
-    @PostMapping(value = "/authenticate",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<?> createAuthenticationToken(AuthenticationRequest request){
+    //@PostMapping(value = "/authenticate",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping("/authenticate")
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest request){
         log.info("Username : "+request.getEmail() + " Password : "+request.getPassword());
         try {
             authenticationManager.authenticate(
