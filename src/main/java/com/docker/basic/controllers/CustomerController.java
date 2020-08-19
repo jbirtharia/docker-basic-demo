@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@Api(tags="Customer API's", description = "Provides API's for customer")
+@Api(tags = "Customer API's", description = "Provides API's for customer")
 public class CustomerController {
 
     @Autowired
-    CustomerService service;
-
+    private CustomerService service;
 
     @GetMapping("/customers")
     public List<Customer> getAllCustomers() {
@@ -24,6 +23,11 @@ public class CustomerController {
     @PostMapping("/customers")
     public Customer saveCustomer(@RequestBody Customer customer) {
         return service.save(customer);
+    }
+
+    @PutMapping("/customers/{id}")
+    public Customer updateCustomer(@RequestBody Customer customer, @PathVariable Integer id) {
+        return service.updateCustomer(id, customer);
     }
 
     @GetMapping("/customers/{id}")
