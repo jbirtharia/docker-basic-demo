@@ -13,7 +13,7 @@ import java.util.List;
 public class CustomerController {
 
     @Autowired
-    private CustomerService service;
+    public CustomerService service;
 
     @GetMapping("/customers")
     public List<Customer> getAllCustomers() {
