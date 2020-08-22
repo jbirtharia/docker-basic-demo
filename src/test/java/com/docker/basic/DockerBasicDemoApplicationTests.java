@@ -70,7 +70,6 @@ class DockerBasicDemoApplicationTests {
     @Test
     @SneakyThrows
     public void testForGetAllApiIsOk(){
-        Mockito.when(service.getAll()).thenReturn(Arrays.asList(getCustomer()));
         mockMvc.perform(get("/customers")
                 .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk());
