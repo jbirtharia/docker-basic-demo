@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_PASS = credentials('jenkins-aws-secret-key-id')
+        DOCKER_PASS = credentials('DOCKER_PASS')
     }
 
     stages {
@@ -29,15 +29,12 @@ pipeline {
             steps{
                 // Pushing image into docker hub
                 sh '''
-                    DOCKER_TAG=docker images jbirtharia/docker-basic-demo| tail -n +2 | awk '{print $2}'
-                    
-                    echo "***********************"
-                    echo "*Pushing Process Start*"
-                    echo "************************"
-
                     echo "*****Logging In**********"
                     docker login -u jbirtharia -p ${DOCKER_PASS}
-                    echo ********Pushing Image******"
+                    echo "*****Pushing To Dockerhub****"
+
+                    DOCKER_TAG=$(docker images jbirtharia/docker-basic-demo| tail -n +2 | awk '{print $2}'| head -1)
+
                     docker push jbirtharia/docker-basic-demo:$DOCKER_TAG
                     
                  '''
