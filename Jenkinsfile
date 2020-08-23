@@ -44,28 +44,16 @@ pipeline {
             steps{
                 //Deploying on uat server by pulling image from dockerhub
                 script {
+                             def runTryScript = "./deploy-try.sh"
+                             def runCatchScript = "./deploy-catch.sh"
                         try {
                                 sshagent(credentials : ['uat']) {
-                                    sh '''
-                                        curl ipinfo.io
-                                        echo "**********************************************************************"
-                                        echo "			              CREATING CONTAINER                            "
-                                        echo "**********************************************************************"
-                                        docker container stop app
-                                        docker container rm app
-                                        docker image pull jbirtharia/docker-basic-demo:$(curl -s -S "https://registry.hub.docker.com/v2/repositories/jbirtharia/docker-basic-demo/tags/" | jq '."results"[]["name"]'|sed -n 1p|tr -d '"')
-                                        docker run -d --name app -p 80:8080 jbirtharia/docker-basic-demo:$(curl -s -S "https://registry.hub.docker.com/v2/repositories/jbirtharia/docker-basic-demo/tags/" | jq '."results"[]["name"]'|sed -n 1p|tr -d '"')
-                                        docker logs -f app &> app.log &
-                                       '''
-                                    }
+                                    sh "ssh -o StrictHostKeyChecking=no ubuntu@3.16.163.202 ${runTryScript}"
+                                }
                             } catch (Throwable e) {
                                 sshagent(credentials : ['uat']) {
-                					sh '''
-                                        docker image pull jbirtharia/docker-basic-demo:$(curl -s -S "https://registry.hub.docker.com/v2/repositories/jbirtharia/docker-basic-demo/tags/" | jq '."results"[]["name"]'|sed -n 1p|tr -d '"')
-                                        docker run -d --name app -p 80:8080 jbirtharia/docker-basic-demo:$(curl -s -S "https://registry.hub.docker.com/v2/repositories/jbirtharia/docker-basic-demo/tags/" | jq '."results"[]["name"]'|sed -n 1p|tr -d '"')
-                                        docker logs -f app &> app.log &
-                                       '''
-                					}
+                					sh "ssh -o StrictHostKeyChecking=no ubuntu@3.16.163.202 ${runCatchScript}"
+                				}
                 			}
                         }
                 }
