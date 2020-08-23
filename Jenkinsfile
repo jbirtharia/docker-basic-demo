@@ -47,6 +47,7 @@ pipeline {
                         try {
                                 sshagent(credentials : ['uat']) {
                                     sh '''
+                                        curl ipinfo.io
                                         echo "**********************************************************************"
                                         echo "			              CREATING CONTAINER                            "
                                         echo "**********************************************************************"
