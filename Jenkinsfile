@@ -40,5 +40,9 @@ pipeline {
                  '''
             }
         }
+        stage('Connecting to SSH'){
+            steps{
+            }
+        }
     }
 }
