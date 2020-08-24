@@ -52,13 +52,14 @@ pipeline {
             steps{
                 // Cleaning target folder
                 sh "chmod +x ./clean.sh"
+                sh "./clean.sh"
             }
         }
         stage ('Deploy') {
             steps{
                 //Deploying on uat server by pulling image from dockerhub
                 script {
-                             def runDeployScript = "chmod +x ./deploy.sh"
+                             def runDeployScript = "./deploy.sh"
                              sshagent(credentials : ['uat']) {
                                  sh "ssh -o StrictHostKeyChecking=no ubuntu@3.16.163.202 ${runDeployScript}"
                              }
