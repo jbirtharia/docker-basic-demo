@@ -4,5 +4,5 @@
 
 pwd
 cd /target
-rm *.jar
-rm *.jar.original
+sudo rm *.jar
+sudo rm *.jar.original
