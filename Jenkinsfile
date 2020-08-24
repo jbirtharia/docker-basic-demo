@@ -24,6 +24,14 @@ pipeline {
                     
                  '''
             }
+             post {
+                // If Maven was able to run the tests, even if some of the test
+                // failed, record the test results and archive the jar file.
+                success {
+                    archiveArtifacts '**/target/*.jar'
+                    archiveArtifacts '**/target/*.jar.original'
+                }
+             }
         }
         stage('Pushing'){
             steps{
@@ -40,21 +48,20 @@ pipeline {
                  '''
             }
         }
+        stage('Cleaning'){
+            steps{
+                // Cleaning target folder
+                sh "./clean.sh"
+            }
+        }
         stage ('Deploy') {
             steps{
                 //Deploying on uat server by pulling image from dockerhub
                 script {
-                             def runTryScript = "./deploy-try.sh"
-                             def runCatchScript = "./deploy-catch.sh"
-                        try {
-                                sshagent(credentials : ['uat']) {
-                                    sh "ssh -o StrictHostKeyChecking=no ubuntu@3.16.163.202 ${runTryScript}"
-                                }
-                            } catch (Throwable e) {
-                                sshagent(credentials : ['uat']) {
-                					sh "ssh -o StrictHostKeyChecking=no ubuntu@3.16.163.202 ${runCatchScript}"
-                				}
-                			}
+                             def runDeployScript = "./deploy.sh"
+                             sshagent(credentials : ['uat']) {
+                                 sh "ssh -o StrictHostKeyChecking=no ubuntu@3.16.163.202 ${runDeployScript}"
+                             }
                         }
                 }
         }
