@@ -2,7 +2,7 @@
 
 #cleaning of target folder
 
-pwd
-cd /target
-rm *.jar
-rm *.jar.original
+echo pwd
+rm target/*.jar
+rm target/*.jar.original
+echo "Cleaned Successfully"
