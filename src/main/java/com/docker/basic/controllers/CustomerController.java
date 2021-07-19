@@ -44,4 +44,9 @@ public class CustomerController {
     public Customer getCustomerByEmail(@PathVariable String email) {
         return service.findByEmail(email);
     }
+
+    @GetMapping("/demo/customers")
+    public List<Customer> getDemoAllCustomers() {
+        return service.getAll();
+    }
 }
